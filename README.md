@@ -1,59 +1,101 @@
-# Contact finder generator
+# Contact Combination Generator
 
-Contact finder generator è uno script Python che genera combinazioni di contatti in vari formati CSV. Gli utenti possono specificare il numero di partenza, il nome del file di output e il tipo di contatto da generare.
+## Panoramica
 
-## Funzionalità
+**Contact Combination Generator** è un'applicazione Python che permette agli utenti di generare combinazioni di dati di contatto a partire da un numero iniziale con segnaposto (rappresentati da underscore `_`). Questo strumento può generare informazioni di contatto in diversi formati, tra cui:
 
-- Genera combinazioni di contatti in formato CSV per Google, formato CSV per Outlook e formato vCard.
-- Configura il numero di partenza utilizzando gli underscore come segnaposto per le combinazioni.
-- Supporta diversi formati di contatto, con campi predefiniti per ogni tipo.
-- Gestisce gli errori per garantire input corretti e file di output validi.
+- **CSV (formato Google Contacts)**
+- **CSV (formato Outlook Contacts)**
+- **vCard (formato VCF)**
 
-## Requisiti di sistema
+L'utente può interagire con l'applicazione tramite un'interfaccia grafica (GUI) basata su **PyQt5**, oppure utilizzando un'interfaccia a linea di comando (CLI) per un utilizzo automatizzato.
+
+## Caratteristiche
+
+- Generazione di combinazioni di contatti a partire da un numero iniziale con segnaposto (`_`).
+- Esportazione delle combinazioni generate in file CSV per Google Contacts, Outlook Contacts o vCard (formato VCF).
+- Possibilità di eseguire l'applicazione in modalità GUI o CLI.
+- Personalizzazione delle informazioni di contatto per ogni combinazione, come nome, numero di telefono, ecc.
+
+## Requisiti
 
 - Python 3.x
+- PyQt5 (per la modalità GUI)
+- Modulo `argparse` (per la modalità CLI)
+
+### Installazione delle dipendenze
+
+Per installare le dipendenze necessarie, esegui il seguente comando:
+
+```bash
+pip install pyqt5
+```
 
 ## Utilizzo
 
-1. Assicurati di avere Python 3.x installato sul tuo sistema.
-2. Scarica lo script `main.py`.
-3. Apri un terminale e spostati nella directory in cui si trova lo script.
-4. Esegui il seguente comando per generare i contatti:
+### Interfaccia Grafica (GUI)
+
+1. **Avvia l'applicazione**:
+   Esegui lo script Python per avviare l'interfaccia grafica.
+
+   ```bash
+   python contact_combination_generator.py
+   ```
+
+2. **Inserisci il numero iniziale**:
+   - Nella finestra dell'app, inserisci il numero iniziale con segnaposto (`_`) dove devono essere generati i numeri.
+   - Esempio: `123_45_` genererà combinazioni come `1230450`, `1231451`, ecc.
+
+3. **Seleziona il formato di esportazione**:
+   - Scegli uno dei formati di esportazione disponibili: Google CSV, Outlook CSV o vCard.
+
+4. **Scegli il file di output**:
+   - Apparirà una finestra di selezione del file. Scegli la posizione e il nome del file di output. L'estensione appropriata (`.csv` o `.vcf`) verrà suggerita in base al formato di esportazione selezionato.
+
+5. **Genera le combinazioni**:
+   - Clicca sul pulsante di esportazione per generare e esportare le combinazioni di contatti.
+
+### Interfaccia a Linea di Comando (CLI)
+
+Per utilizzare l'applicazione in modalità CLI, esegui lo script con i parametri necessari.
+
+Esempio:
 
 ```bash
-python contact_generator.py start_number output_filename [--contact_type CONTACT_TYPE]
+python contact_combination_generator.py 123_45_ output.csv --contact_type csv_google --nogui
 ```
 
+Questo comando genererà combinazioni di contatti a partire dal numero iniziale `123_45_`, le esporterà come file CSV di Google (`output.csv`), e eseguirà l'applicazione senza interfaccia grafica (`--nogui`).
 
-- `start_number`: Il numero di partenza con gli underscore (_) come segnaposto per le combinazioni.
-- `output_filename`: Il nome del file di output, che deve avere l'estensione .csv.
-- `--contact_type`  (opzionale): Il tipo di contatto da generare. I valori consentiti sono `csv_google`, `csv_outlook` e `vcard`. Il valore predefinito è `myContacts`.
+#### Argomenti:
 
-5. Il file di output con le combinazioni di contatti verrà creato nella directory corrente.
+- `start_number`: Il numero iniziale con segnaposto (`_`) (es. `123_45_`).
+- `output_filename`: Il nome del file di output (es. `output.csv`).
+- `--contact_type`: Specifica il tipo di contatto per l'esportazione. Valori validi:
+  - `csv_google` (predefinito)
+  - `csv_outlook`
+  - `vcard`
+- `--nogui`: Esegui l'applicazione in modalità linea di comando senza interfaccia grafica.
 
-## Formati di contatto supportati
+### Esempio:
 
-CSV Contact Generator supporta i seguenti formati di contatto:
+Genera combinazioni e esporta come file CSV di Outlook:
 
-- CSV per Google: Contiene campi comuni per i contatti di Google.
-- CSV per Outlook: Contiene campi comuni per i contatti di Outlook.
-- vCard: Formato standard per i contatti elettronici.
+```bash
+python contact_combination_generator.py 987_65_ contacts_outlook.csv --contact_type csv_outlook --nogui
+```
 
-## Limitazioni
+## Spiegazione del Codice
 
-- Il numero di partenza (`start_number`) può contenere solo cifre e underscore (_).
-- The output file must have the .csv extension.
-- The `--contact_type` parameter must be one of the following values: `csv_google`, `csv_outlook`, or `vcard`.
+- **Enum ContactType**: Definisce i tipi di contatto (CSV per Google, CSV per Outlook e vCard).
+- **Dizionario HEADERS**: Contiene le righe di intestazione per i formati CSV di Google, Outlook e vCard.
+- **Funzione `generate_combinations()`**: Genera tutte le possibili combinazioni del numero iniziale, sostituendo gli underscore con i numeri (0-9) e scrive il risultato nel file specificato.
+- **GUI PyQt5**: Fornisce un'interfaccia semplice per inserire il numero iniziale, selezionare il formato di esportazione e scegliere il file di output.
 
-## Contributing
+## Licenza
 
-Contributions to this project are welcome! If you would like to make improvements or fix issues, you can follow these steps:
+Questo progetto è concesso in licenza sotto la **MIT License** - vedi il file [LICENSE](LICENSE) per dettagli.
 
-1. Clone the repository or fork it.
-2. Make the necessary changes in your development environment.
-3. Run tests and ensure everything is functioning correctly.
-4. Submit a pull request with the changes made.
+---
 
-## License
-
-This project is licensed under the [MIT License](LICENSE).
+Per qualsiasi domanda o problema, apri un'issue nel [repository GitHub](https://github.com/alessandromasone/contact-combination-generator).
